@@ -1,0 +1,28 @@
+{
+  "name": "-cse340-course",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Sogiefa-12/-cse340-course#readme",
+  "bugs": {
+    "url": "https://github.com/Sogiefa-12/-cse340-course/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sogiefa-12/-cse340-course.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "ejs": "^5.0.2",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
