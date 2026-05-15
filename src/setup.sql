@@ -73,7 +73,7 @@ VALUES (
         'Kano',
         '2026-06-25'
     );
--- =========================
+// Assignment -- =========================
 -- Create Category Table
 -- =========================
 CREATE TABLE category (
