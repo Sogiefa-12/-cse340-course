@@ -1,6 +1,4 @@
-// Import any needed model functions
 
-// Define any controller functions
 
 // Test route for 500 errors
 const testErrorPage = (req, res, next) => {
