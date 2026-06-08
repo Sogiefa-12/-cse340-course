@@ -29,6 +29,7 @@ const findUserByEmail = async (email) => {
         SELECT
             u.user_id,
             u.email,
+            u.name,
             u.password_hash,
             r.role_name
         FROM users u
