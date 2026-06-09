@@ -136,3 +136,28 @@ password_hash VARCHAR(255) NOT NULL,
 role_id INTEGER REFERENCES roles(role_id),
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP	
 );
+
+
+--==================================
+-- Create project_volunteers Table
+-- With Many to Many relationship
+--==================================
+
+CREATE TABLE project_volunteers (
+    volunteer_id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    project_id INTEGER NOT NULL,
+
+    CONSTRAINT fk_volunteer_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(user_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_volunteer_project
+        FOREIGN KEY (project_id)
+        REFERENCES projects(project_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT unique_volunteer
+        UNIQUE (user_id, project_id)
+);

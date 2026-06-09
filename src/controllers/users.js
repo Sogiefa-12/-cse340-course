@@ -81,8 +81,12 @@ const requireLogin = (req, res, next) => {
 
 const showDashboard = (req, res)  => {
     const user = req.session.user;
+
+    console.log('Dashboard user', user);
+
     res.render('dashboard', {
         title: 'Dashboard',
+        user,
         name: user.name,
         email: user.email
     });
