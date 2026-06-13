@@ -66,6 +66,42 @@
             </p>
      
         <% } %>
+
+        
+
+        <% if (user) { %>
+
+            <% if (!isUserVolunteer) { %>
+
+                <form
+                    action="/project/<%= project.project_id %>/volunteer"
+                    method="POST">
+
+                    <button type="submit">
+                        Volunteer for this Project
+                    </button>
+
+                </form>
+
+            <% } else { %>
+
+                <p>
+                    You are volunteering for this project.
+                </p>
+
+                <form
+                    action="/project/<%= project.project_id %>/remove-volunteer"
+                    method="POST">
+
+                    <button type="submit">
+                        Stop Volunteering
+                    </button>
+
+                </form>
+
+            <% } %>
+
+        <% } %>
     </main>
 
     <%- include('partials/footer') %>

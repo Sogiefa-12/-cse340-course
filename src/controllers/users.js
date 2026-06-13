@@ -4,6 +4,9 @@ import { createUser,
         getAllUsers
     } from '../models/users.js';
 
+    import { getVolunteerProjects }
+    from '../models/volunteers.js';
+
 const showUserRegistrationForm = (req, res) => {
     res.render('register', { title: 'Register' });
 };
@@ -79,17 +82,31 @@ const requireLogin = (req, res, next) => {
 };
 
 
-const showDashboard = (req, res)  => {
-    const user = req.session.user;
+const showDashboard = async (req, res) => {
+    try {
+        const user = req.session.user;
 
-    console.log('Dashboard user', user);
+        const volunteerProjects =
+            await getVolunteerProjects(user.user_id);
 
-    res.render('dashboard', {
-        title: 'Dashboard',
-        user,
-        name: user.name,
-        email: user.email
-    });
+        res.render('dashboard', {
+            title: 'Dashboard',
+            user,
+            name: user.name,
+            email: user.email,
+            volunteerProjects
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        req.flash(
+            'error',
+            'Unable to load dashboard.'
+        );
+
+        res.redirect('/');
+    }
 };
 
 

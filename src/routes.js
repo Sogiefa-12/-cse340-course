@@ -10,7 +10,9 @@ import {
     processNewProjectForm,
     projectValidation,
     showEditProjectForm,
-    processEditProjectForm
+    processEditProjectForm,
+    volunteerForProject,
+    removeVolunteerFromProject
 } from './controllers/projects.js';
 
 import {
@@ -123,6 +125,21 @@ router.get(
     requireRole('admin'),
     showUsersPage
 );
+
+// Volunteer Routes
+
+router.post(
+    '/project/:projectId/volunteer',
+    requireLogin,
+    volunteerForProject
+);
+
+router.post(
+    '/project/:projectId/remove-volunteer',
+    requireLogin,
+    removeVolunteerFromProject
+);
+
 
 // error-handling routes
 router.get('/test-error', testErrorPage);

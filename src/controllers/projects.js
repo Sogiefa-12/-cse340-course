@@ -10,6 +10,13 @@ import {
 import { getCategoriesByProject } from '../models/categories.js';
 import { getAllOrganizations } from '../models/organizations.js';
 
+import { isVolunteer,
+         addVolunteer,
+         removeVolunteer
+} from '../models/volunteers.js';
+
+
+
 import {body,  validationResult } from 'express-validator';
 
 const projectValidation = [
@@ -50,7 +57,20 @@ const showProjectDetailsPage = async (req, res) => {
 
     const categories = await getCategoriesByProject(id);
 
-    res.render('project', { title: project.title, project, categories });
+    let isUserVolunteer = false;
+    
+    if (req.session.user) {
+        isUserVolunteer = await isVolunteer(
+            req.session.user.user_id, id
+        );
+    }
+
+    res.render('project', {
+        title: project.title,
+        project, 
+        categories,
+        isUserVolunteer
+    });
 };
 
 
@@ -143,6 +163,69 @@ const processEditProjectForm = async (req, res) => {
 };
 
 
+const volunteerForProject = async (req, res) => {
+    try {
+        const projectId = req.params.projectId;
+
+        const userId = req.session.user.user_id;
+
+        await addVolunteer(userId, projectId);
+
+        req.flash('success', 'You have signed up as a volunteer.');
+
+        res.redirect(`/project/${projectId}`);
+    } catch (error) {
+        console.error(error);
+        req.flash(
+            'error',
+            'Unable to Volunteer for project.'
+        );
+
+        res.redirect(`/project/${req.params.projectId}`);
+    }
+};
+
+
+const removeVolunteerFromProject = async (req, res) => {
+    try {
+        const projectId = req.params.projectId;
+
+        const userId = req.session.user.user_id;
+
+        await removeVolunteer(userId, projectId);
+
+        req.flash(
+            'success',
+            'Volunteer signup removed.'
+        );
+
+       // Return to dashboard after removing
+        res.redirect('/dashboard');
+
+    } catch (error) {
+
+        console.error(error);
+
+        req.flash(
+            'error',
+            'Unable to remove volunteer signup.'
+        );
+
+         // Return to dashboard if an error occurs
+        res.redirect('/dashboard');
+    }
+};
+
 
 // Export any controller functions
-export { showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm, projectValidation, showEditProjectForm, processEditProjectForm };
+export { showProjectsPage, 
+    showProjectDetailsPage, 
+    showNewProjectForm, 
+    processNewProjectForm, 
+    projectValidation, 
+    showEditProjectForm, 
+    processEditProjectForm,
+    volunteerForProject,
+    removeVolunteerFromProject
+
+};
